@@ -31,9 +31,6 @@ def stk_push(payload: STKPushPayload):
 
 
 
-app = FastAPI()
-
-
 
 @app.post("/callbackurl")
 async def mpesa_callback(request: Request, callback_data: MpesacallbackResponse):
