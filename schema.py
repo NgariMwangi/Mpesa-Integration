@@ -24,3 +24,5 @@ class MpesacallbackResponse(BaseModel):
     Amount: float
     MpesaReceiptNumber: str
     PhoneNumber: str
+class RegisterUrlPayload(BaseModel):
+    ConfirmationUrl: str
