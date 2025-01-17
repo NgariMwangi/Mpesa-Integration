@@ -8,6 +8,7 @@ from datetime import datetime
 from sqlalchemy.orm import Session
 import pytz, json
 from query import query_transaction_status
+from typing import List, Dict
 # Base class for SQLAlchemy models
 Base = declarative_base()
 
@@ -238,3 +239,48 @@ async def timeout_url(request: Request):
     # in the mean time, accept all monies by returning 'ResultCode' of 0
 
     return {"ResultCode": 0, "ResultDesc": "Accepted" }
+
+
+@app.get("/transactions/{account_reference}", response_model=Dict[str, List[Dict]])
+def get_transactions_by_account_reference(account_reference: str, db: Session = Depends(get_db)):
+    """
+    Get records from both StkPushTransaction and Transaction tables with the same account_reference.
+    """
+    # Query the `StkPushTransaction` table
+    stk_push_transactions = db.query(StkPushTransaction).filter(StkPushTransaction.account_reference == account_reference).all()
+    
+    # Query the `Transaction` table
+    transactions = db.query(Transaction).filter(Transaction.account_reference == account_reference).all()
+    
+    # Return the data in a structured format
+    return {
+        "stk_push_transactions": [
+            {
+                "id": stk.id,
+                "merchant_request_id": stk.merchant_request_id,
+                "checkout_request_id": stk.checkout_request_id,
+                "phone_number": stk.phone_number,
+                "account_reference": stk.account_reference,
+                "amount": stk.amount,
+                "status": stk.status,
+                "result_code": stk.result_code,
+                "result_desc": stk.result_desc,
+                "created_at": stk.created_at,
+                "updated_at": stk.updated_at,
+            }
+            for stk in stk_push_transactions
+        ],
+        "transactions": [
+            {
+                "id": txn.id,
+                "account_reference": txn.account_reference,
+                "transaction_number": txn.transaction_number,
+                "trans_amount": txn.trans_amount,
+                "first_name": txn.first_name,
+                "phone_number": txn.phone_number,
+                "trans_time": txn.trans_time,
+                "full_name": txn.full_name,
+            }
+            for txn in transactions
+        ],
+    }
