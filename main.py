@@ -194,11 +194,17 @@ async def result_url(request: Request,  db: Session = Depends(get_db)):
     with open('ConfirmationResponse.json', 'a') as outfile:
         json.dump(body, outfile)
     if body["Result"]["ResultCode"]==0:
-        Transaction_id=body["Result"]["TransactionID"]
+        x=body["Result"]["ResultParameters"]["ResultParameter"]
+        y={}
+        for i in x:
+            if i["Key"]=='ReceiptNo':
+                y=i
+                break
+        Transaction_id=y["Value"]
 
         transaction = (db.query(Transaction).filter(Transaction.transaction_number == Transaction_id).first())
         if transaction:
-            x=body["Result"]["ResultParameters"]["ResultParameter"]
+            
             dict={}
             for i in x:
                 if i["Key"]=='DebitPartyName':
