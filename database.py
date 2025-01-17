@@ -9,7 +9,7 @@ class StkPushTransaction(Base):
     merchant_request_id = Column(String, unique=True, nullable=False)  # Unique identifier for the STK push
     checkout_request_id = Column(String, unique=True, nullable=False)  # Unique identifier for checkout
     phone_number = Column(String, nullable=False)  # Customer's phone number
-    account_reference=Column(Integer, nullable=False)
+    account_reference=Column(String, nullable=False)
     amount = Column(Float, nullable=False)  # Amount requested
     status = Column(String, default="Pending")  # Status of the transaction
     result_code = Column(Integer, nullable=True)  # Callback result code
@@ -24,6 +24,7 @@ class Transaction(Base):
     __tablename__ = 'paybill_offline'
 
     id = Column(Integer, primary_key=True,  index=True)
+    account_reference=Column(String, nullable=False)
     transaction_number = Column(String, nullable=False)
     trans_amount = Column(Float, nullable=False)
     first_name = Column(String, nullable=False)

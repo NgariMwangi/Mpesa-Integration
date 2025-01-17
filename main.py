@@ -170,7 +170,8 @@ async def confirmation_url(request: Request, db: Session = Depends(get_db)):
         transaction_number=body['TransID'],
         trans_amount=body['TransAmount'],
         first_name=body['FirstName'],
-        trans_time=body['TransTime']
+        trans_time=body['TransTime'],
+        account_reference=body['BillRefNumber']
     )
         db.add(transaction)
         db.commit()
