@@ -133,19 +133,20 @@ async def regiser_url(payload: RegisterUrlPayload):
     payload={
          "ShortCode": "4149503",
    "ResponseType":"Completed",
-   "ConfirmationURL":payload.ConfirmationUrl,
+   "ConfirmationURL":"https://techtutor.co.ke/confirmationurl",
+   "ValidationURL":"https://techtutor.co.ke/validationurl"
     }
     header = {'Content-Type': 'application/json', 'Authorization': 'Bearer %s' % token}
     print(header)
     r = requests.post(
-        "https://api.safaricom.co.ke/mpesa/c2b/v1/registerurl",
+        "https://api.safaricom.co.ke/mpesa/c2b/v2/registerurl",
         json=payload,
         headers=header
     ).json()
 
     return r
 
-@app.post("/validationUrl", 
+@app.post("/validationurl", 
     tags=['C2B'],)
 async def validation_url(request: Request):
     body = await request.json()
@@ -156,7 +157,7 @@ async def validation_url(request: Request):
 
     return {"ResultCode": 0, "ResultDesc": "Accepted"}
 
-@app.post('/confirmationUrl',
+@app.post('/confirmationurl',
     tags=['C2B'],)
 async def confirmation_url(request: Request):
     body = await request.json()
