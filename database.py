@@ -5,7 +5,7 @@ from main import Base
 class StkPushTransaction(Base):
     __tablename__ = "stk_push_transactions"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     merchant_request_id = Column(String, unique=True, nullable=False)  # Unique identifier for the STK push
     checkout_request_id = Column(String, unique=True, nullable=False)  # Unique identifier for checkout
     phone_number = Column(String, nullable=False)  # Customer's phone number
@@ -23,7 +23,7 @@ class Transaction(Base):
     """
     __tablename__ = 'paybill_offline'
 
-    id = Column(String, primary_key=True, unique=True, index=True)
+    id = Column(String, primary_key=True, index=True, autoincrement=True)
     transaction_number = Column(String, nullable=False)
     trans_amount = Column(Float, nullable=False)
     first_name = Column(String, nullable=False)
