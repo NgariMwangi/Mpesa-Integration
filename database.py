@@ -28,5 +28,5 @@ class Transaction(Base):
     trans_amount = Column(Float, nullable=False)
     first_name = Column(String, nullable=False)
     phone_number = Column(String, nullable=True)
-    trans_time = Column(DateTime, nullable=False)
+    trans_time = Column(String, nullable=False)
     full_name = Column(String, nullable=True)
