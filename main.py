@@ -150,7 +150,7 @@ async def regiser_url(payload: RegisterUrlPayload):
     tags=['C2B'],)
 async def validation_url(request: Request):
     body = await request.json()
-    print(body)
+    print(f'validation: {body}')
     with open('ValidateResponse.json', 'a') as outfile:
         json.dump(body, outfile)
 
@@ -162,7 +162,7 @@ async def validation_url(request: Request):
     tags=['C2B'],)
 async def confirmation_url(request: Request):
     body = await request.json()
-    print(body)
+    print(f'confirmation: {body}')
     with open('ConfirmationResponse.json', 'a') as outfile:
         json.dump(body, outfile)
 
