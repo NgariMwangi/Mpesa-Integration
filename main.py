@@ -7,11 +7,11 @@ from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 from sqlalchemy.orm import Session
 import pytz, json
-
+from query import query_transaction_status
 # Base class for SQLAlchemy models
 Base = declarative_base()
 
-from database import StkPushTransaction
+from database import StkPushTransaction, Transaction
 # SQLite database URL
 DATABASE_URL = "sqlite:///./stk_push.db"
 
@@ -160,25 +160,64 @@ async def validation_url(request: Request):
 
 @app.post('/confirmationurl',
     tags=['C2B'],)
-async def confirmation_url(request: Request):
+async def confirmation_url(request: Request, db: Session = Depends(get_db)):
     body = await request.json()
     print(f'confirmation: {body}')
     with open('ConfirmationResponse.json', 'a') as outfile:
         json.dump(body, outfile)
+    try:
+        transaction = Transaction(
+        transaction_number=body['TransID'],
+        trans_amount=body['TransAmount'],
+        first_name=body['FirstName'],
+        trans_time=body['TransTime']
+    )
+        db.add(transaction)
+        db.commit()
+        db.refresh(transaction)
+    except Exception as e:
+        print(f"Error when storing paybill trans in db: {e}")
+    try:
+     query_transaction_status(body['TransID'])
+    except Exception as e:
+        print(f"Error when quering transaction by transaction id: {e}")
 
     # in the mean time, accept all monies by returning 'ResultCode' of 0
 
     return {"ResultCode": 0, "ResultDesc": "Accepted" }
 @app.post('/resulturl',
     tags=['C2B'],)
-async def result_url(request: Request):
+async def result_url(request: Request,  db: Session = Depends(get_db)):
     body = await request.json()
     print(f'result: {body}')
     with open('ConfirmationResponse.json', 'a') as outfile:
         json.dump(body, outfile)
+    if body["Result"]["ResultCode"]==0:
+        Transaction_id=body["Result"]["TransactionID"]
 
-    # in the mean time, accept all monies by returning 'ResultCode' of 0
+        transaction = (db.query(Transaction).filter(Transaction.transaction_number == Transaction_id).first())
+        if transaction:
+            x=body["Result"]["ResultParameters"]["ResultParameter"]
+            dict={}
+            for i in x:
+                if i["Key"]=='DebitPartyName':
+                    dict=i
+                    break
+            value=dict["Value"]
+            phone_number, fullname = value.split(' - ', 1)
+            transaction.phone_number=phone_number
+            transaction.full_name=fullname
+            # Commit the changes to the database
+            db.commit()
 
+            # Refresh the session to reflect the updates
+            db.refresh(transaction)
+            print("fullname and phone number updated correctly")
+        else:
+            print(f'Transaction with transaction id {Transaction_id} not found in the database')
+        # in the mean time, accept all monies by returning 'ResultCode' of 0
+    else:
+        print(f"Wrong response from query transaction callback url received: {body}")
     return {"ResultCode": 0, "ResultDesc": "Accepted" }
 @app.post('/timeouturl',
     tags=['C2B'],)

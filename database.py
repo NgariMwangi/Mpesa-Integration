@@ -16,3 +16,17 @@ class StkPushTransaction(Base):
     result_desc = Column(String, nullable=True)  # Callback result description
     created_at = Column(DateTime, default=datetime.utcnow)  # Time when the transaction was initiated
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)  # Last update time
+
+class Transaction(Base):
+    """
+    Database model to store transaction details.
+    """
+    __tablename__ = 'paybill_offline'
+
+    id = Column(String, primary_key=True, unique=True, index=True)
+    transaction_number = Column(String, nullable=False)
+    trans_amount = Column(Float, nullable=False)
+    first_name = Column(String, nullable=False)
+    phone_number = Column(String, nullable=True)
+    trans_time = Column(DateTime, nullable=False)
+    full_name = Column(String, nullable=True)
