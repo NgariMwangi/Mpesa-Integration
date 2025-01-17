@@ -254,22 +254,6 @@ def get_transactions_by_account_reference(account_reference: str, db: Session = 
     
     # Return the data in a structured format
     return {
-        "stk_push_transactions": [
-            {
-                "id": stk.id,
-                "merchant_request_id": stk.merchant_request_id,
-                "checkout_request_id": stk.checkout_request_id,
-                "phone_number": stk.phone_number,
-                "account_reference": stk.account_reference,
-                "amount": stk.amount,
-                "status": stk.status,
-                "result_code": stk.result_code,
-                "result_desc": stk.result_desc,
-                "created_at": stk.created_at,
-                "updated_at": stk.updated_at,
-            }
-            for stk in stk_push_transactions
-        ],
         "transactions": [
             {
                 "id": txn.id,
@@ -282,5 +266,5 @@ def get_transactions_by_account_reference(account_reference: str, db: Session = 
                 "full_name": txn.full_name,
             }
             for txn in transactions
-        ],
+        ]
     }
