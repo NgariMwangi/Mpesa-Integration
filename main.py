@@ -178,6 +178,7 @@ async def confirmation_url(request: Request, db: Session = Depends(get_db)):
     except Exception as e:
         print(f"Error when storing paybill trans in db: {e}")
     try:
+     print(f"trans id when calling quering endpoint: {body['TransID']}")
      query_transaction_status(body['TransID'])
     except Exception as e:
         print(f"Error when quering transaction by transaction id: {e}")
