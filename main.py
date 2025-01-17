@@ -169,3 +169,25 @@ async def confirmation_url(request: Request):
     # in the mean time, accept all monies by returning 'ResultCode' of 0
 
     return {"ResultCode": 0, "ResultDesc": "Accepted" }
+@app.post('/resulturl',
+    tags=['C2B'],)
+async def result_url(request: Request):
+    body = await request.json()
+    print(f'result: {body}')
+    with open('ConfirmationResponse.json', 'a') as outfile:
+        json.dump(body, outfile)
+
+    # in the mean time, accept all monies by returning 'ResultCode' of 0
+
+    return {"ResultCode": 0, "ResultDesc": "Accepted" }
+@app.post('/timeouturl',
+    tags=['C2B'],)
+async def timeout_url(request: Request):
+    body = await request.json()
+    print(f'timeout: {body}')
+    with open('ConfirmationResponse.json', 'a') as outfile:
+        json.dump(body, outfile)
+
+    # in the mean time, accept all monies by returning 'ResultCode' of 0
+
+    return {"ResultCode": 0, "ResultDesc": "Accepted" }
