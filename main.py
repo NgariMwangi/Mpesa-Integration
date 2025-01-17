@@ -53,7 +53,7 @@ def stk_push(payload: STKPushPayload, db: Session = Depends(get_db)):
         "PartyA": phone_number,
         "PartyB": business_short_code,
         "PhoneNumber": phone_number,
-        "CallBackURL": "https://292d-217-199-146-223.ngrok-free.app/callbackurl",
+        "CallBackURL": "https://techtutor.co.ke/callbackurl",
         "AccountReference": account_number,
         "TransactionDesc": "Edwin is shouting at us"
     }
