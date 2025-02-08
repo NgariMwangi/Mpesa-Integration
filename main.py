@@ -269,7 +269,7 @@ def get_transactions_by_account_reference(account_reference: str, db: Session = 
         ]
     }
 @app.get("/transactions/all", response_model=Dict[str, List[Dict]])
-def get_transactions_all(account_reference: str, db: Session = Depends(get_db)):
+def get_transactions_all(db: Session = Depends(get_db)):
     """
     Get records from both StkPushTransaction and Transaction tables with the same account_reference.
     """
