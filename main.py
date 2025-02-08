@@ -268,3 +268,30 @@ def get_transactions_by_account_reference(account_reference: str, db: Session = 
             for txn in transactions
         ]
     }
+@app.get("/transactions/all", response_model=Dict[str, List[Dict]])
+def get_transactions_all(account_reference: str, db: Session = Depends(get_db)):
+    """
+    Get records from both StkPushTransaction and Transaction tables with the same account_reference.
+    """
+    # Query the `StkPushTransaction` table
+    stk_push_transactions = db.query(StkPushTransaction).all()
+    
+    # Query the `Transaction` table
+    transactions = db.query(Transaction).all()
+    
+    # Return the data in a structured format
+    return {
+        "transactions": [
+            {
+                "id": txn.id,
+                "account_reference": txn.account_reference,
+                "transaction_number": txn.transaction_number,
+                "trans_amount": txn.trans_amount,
+                "first_name": txn.first_name,
+                "phone_number": txn.phone_number,
+                "trans_time": txn.trans_time,
+                "full_name": txn.full_name,
+            }
+            for txn in transactions
+        ]
+    }
