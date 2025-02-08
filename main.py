@@ -278,6 +278,7 @@ def get_transactions_all(db: Session = Depends(get_db)):
     
     # Query the `Transaction` table
     transactions = db.query(Transaction).all()
+    print("hello")
     print(transactions)
     # Return the data in a structured format
     return {
