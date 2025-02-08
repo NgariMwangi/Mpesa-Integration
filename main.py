@@ -134,8 +134,8 @@ async def regiser_url(payload: RegisterUrlPayload):
     payload={
          "ShortCode": "4149503",
    "ResponseType":"Completed",
-   "ConfirmationURL":"https://techtutor.co.ke/confirmationurl",
-   "ValidationURL":"https://techtutor.co.ke/validationurl"
+   "ConfirmationURL":"https://m-pesa.techtutor.co.ke/confirmationurl",
+   "ValidationURL":"https://m-pesa.techtutor.co.ke/validationurl"
     }
     header = {'Content-Type': 'application/json', 'Authorization': 'Bearer %s' % token}
     print(header)
