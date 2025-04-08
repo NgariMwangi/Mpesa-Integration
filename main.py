@@ -14,7 +14,7 @@ Base = declarative_base()
 
 from database import StkPushTransaction, Transaction
 # SQLite database URL
-DATABASE_URL = "sqlite:///./stk_push.db"
+DATABASE_URL = "postgresql://postgres:#Deno0707@69.197.187.23:5432/tech_tutor_mpesa"
 
 # Create the SQLite engine
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
