@@ -17,7 +17,7 @@ from database import StkPushTransaction, Transaction
 DATABASE_URL = "postgresql://postgres:#Deno0707@69.197.187.23:5432/tech_tutor_mpesa"
 
 # Create the SQLite engine
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+engine = create_engine(DATABASE_URL)
 
 # Create a sessionmaker
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
