@@ -17,8 +17,8 @@ def query_transaction_status(transaction_id):
         "TransactionID": transaction_id,
         "PartyA": "4149503",
         "IdentifierType": "4",  # Shortcode identifier
-        "ResultURL": "https://techtutor.co.ke/resulturl",
-        "QueueTimeOutURL": "https://techtutor.co.ke/timeouturl",
+        "ResultURL": "https://m-pesa.techtutor.co.ke/resulturl",
+        "QueueTimeOutURL": "https://m-pesa.techtutor.co.ke/timeouturl",
         "Remarks": "Transaction status query",
         "Occasion": "Query"
     }
