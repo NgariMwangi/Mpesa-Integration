@@ -13,6 +13,7 @@ from typing import List, Dict
 Base = declarative_base()
 
 from database import StkPushTransaction, Transaction
+# DATABASE_URL="sqlite:///./stk_push.db"
 # SQLite database URL
 DATABASE_URL = "postgresql://postgres:#Deno0707@69.197.187.23:5432/tech_tutor_mpesa"
 
