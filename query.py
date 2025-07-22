@@ -4,6 +4,7 @@ from fastapi import FastAPI, HTTPException
 def query_transaction_status(transaction_id):
     print("hellocxbhuiwdhr")
     token=authenticator()
+    print
     url = "https://api.safaricom.co.ke/mpesa/transactionstatus/v1/query"
     headers = {
         "Authorization": f"Bearer {token}",
@@ -22,6 +23,7 @@ def query_transaction_status(transaction_id):
         "Occasion": "Query"
     }
     response = requests.post(url, headers=headers, json=payload)
+    print("2hellocxbhuiwdhr")
     print(response.json())
     if response.status_code == 200:
         return response.json()
