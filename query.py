@@ -2,6 +2,7 @@ from utils import *
 from fastapi import FastAPI, HTTPException
 
 def query_transaction_status(transaction_id):
+    print("hellocxbhuiwdhr")
     token=authenticator()
     url = "https://api.safaricom.co.ke/mpesa/transactionstatus/v1/query"
     headers = {
