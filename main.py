@@ -168,9 +168,10 @@ async def confirmation_url(request: Request, db: Session = Depends(get_db)):
     with open('ConfirmationResponse.json', 'a') as outfile:
         json.dump(body, outfile)
     try:
+        trans_amount=float(body['TransAmount'])
         transaction = Transaction(
         transaction_number=body['TransID'],
-        trans_amount=body['TransAmount'],
+        trans_amount=trans_amount,
         first_name=body['FirstName'],
         trans_time=body['TransTime'],
         account_reference=body['BillRefNumber']
